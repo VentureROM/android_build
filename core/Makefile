@@ -226,7 +226,7 @@ ifneq ($(PRODUCTS.$(INTERNAL_PRODUCT).PRODUCT_OEM_PROPERTIES),)
 endif
 	$(hide) TARGET_BUILD_TYPE="$(TARGET_BUILD_VARIANT)" \
 			TARGET_DEVICE="$(TARGET_VENDOR_DEVICE_NAME)" \
-			DU_DEVICE="$(TARGET_DEVICE)" \
+			VENTURE_DEVICE="$(TARGET_DEVICE)" \
 			PRODUCT_NAME="$(TARGET_VENDOR_PRODUCT_NAME)" \
 			PRODUCT_BRAND="$(PRODUCT_BRAND)" \
 			PRODUCT_DEFAULT_LANGUAGE="$(call default-locale-language,$(PRODUCT_LOCALES))" \
@@ -1523,42 +1523,26 @@ $(INTERNAL_OTA_PACKAGE_TARGET): $(BUILT_TARGET_FILES_PACKAGE) $(DISTTOOLS)
 	   --override_device=$(override_device) \
 	   $(BUILT_TARGET_FILES_PACKAGE) $@
 
-DU_TARGET_PACKAGE := $(PRODUCT_OUT)/$(DU_VERSION).zip
+VENTURE_TARGET_PACKAGE := $(PRODUCT_OUT)/$(VENTURE_VERSION).zip
 
 .PHONY: otapackage bacon
 otapackage: $(INTERNAL_OTA_PACKAGE_TARGET)
 bacon: otapackage
 ifneq ($(TARGET_CUSTOM_RELEASETOOL),)
 endif
-	$(hide) ln -f $(INTERNAL_OTA_PACKAGE_TARGET) $(DU_TARGET_PACKAGE)
-	$(hide) $(MD5SUM) $(DU_TARGET_PACKAGE) > $(DU_TARGET_PACKAGE).md5sum
+	$(hide) ln -f $(INTERNAL_OTA_PACKAGE_TARGET) $(VENTURE_TARGET_PACKAGE)
+	$(hide) $(MD5SUM) $(VENTURE_TARGET_PACKAGE) > $(VENTURE_TARGET_PACKAGE).md5sum
 
 	@echo -e ${CL_RED}""${CL_RED}
-	@echo -e ${CL_RED}".......................########..####.########..########.##....##......................"${CL_RED}
-	@echo -e ${CL_RED}".......................##.....##..##..##.....##....##.....##..##......................."${CL_RED}
-	@echo -e ${CL_RED}".......................##.....##..##..##.....##....##......####........................"${CL_RED}
-	@echo -e ${CL_RED}".......................##.....##..##..########.....##.......##........................."${CL_RED}
-	@echo -e ${CL_RED}".......................##.....##..##..##...##......##.......##........................."${CL_RED}
-	@echo -e ${CL_RED}".......................##.....##..##..##....##.....##.......##........................."${CL_RED}
-	@echo -e ${CL_RED}".......................########..####.##.....##....##.......##........................."${CL_RED}
-	@echo -e ${CL_RED}"......................................................................................."${CL_RED}
-	@echo -e ${CL_RED}"......................................................................................."${CL_RED}
-	@echo -e ${CL_RED}".........##.....##.##....##.####..######...#######..########..##....##..######........."${CL_RED}
-	@echo -e ${CL_RED}".........##.....##.###...##..##..##....##.##.....##.##.....##.###...##.##....##........"${CL_RED}
-	@echo -e ${CL_RED}".........##.....##.####..##..##..##.......##.....##.##.....##.####..##.##.............."${CL_RED}
-	@echo -e ${CL_RED}".........##.....##.##.##.##..##..##.......##.....##.########..##.##.##..######........."${CL_RED}
-	@echo -e ${CL_RED}".........##.....##.##..####..##..##.......##.....##.##...##...##..####.......##........"${CL_RED}
-	@echo -e ${CL_RED}".........##.....##.##...###..##..##....##.##.....##.##....##..##...###.##....##........"${CL_RED}
-	@echo -e ${CL_RED}"..........#######..##....##.####..######...#######..##.....##.##....##..######........."${CL_RED}
 	@echo -e ${CL_RST}""${CL_RST}
 	@echo -e ${CL_RST}""${CL_RST}
-	@echo -e ${CL_RST}"                    Build completed! Now Flash that shit and ENJOY!!                   "${CL_RST} 
+	@echo -e ${CL_RST}"                    Build completed! Now Flash that shit and ENJOY!!                   "${CL_RST}
 	@echo -e ${CL_RST}""${CL_RST}
 	@echo -e ${CL_RST}""${CL_RST}
 	@echo -e ${CL_RED}"======================================================================================="${CL_RED}
-	@echo -e ${CL_RST}"$(DU_TARGET_PACKAGE)"${CL_RST}
+	@echo -e ${CL_RST}"$(VENTURE_TARGET_PACKAGE)"${CL_RST}
 	@echo -e ${CL_RED}"======================================================================================="${CL_RED}
-	@echo -e ${CL_RST}"Be yourself. Unless you can be a unicorn, In that case, you should always be a unicorn."${CL_RST}
+	@echo -e ${CL_RST}"VENTURE"${CL_RST}
 
 endif    # recovery_fstab is defined
 endif    # TARGET_NO_KERNEL != true

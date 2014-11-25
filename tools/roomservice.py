@@ -54,7 +54,7 @@ except:
     device = product
 
 if not depsonly:
-    print("Device %s not found. Attempting to retrieve device repository from Dirty Unicorns Github (http://github.com/DirtyUnicorns)." % device)
+    print("Device %s not found. Attempting to retrieve device repository from VentureROM github (http://github.com/VentureROM-L)." % device)
 
 repositories = []
 
@@ -74,7 +74,7 @@ def add_auth(githubreq):
 
 page = 1
 while not depsonly:
-    githubreq = urllib.request.Request("https://api.github.com/users/DirtyUnicorns/repos?per_page=200&page=%d" % page)
+    githubreq = urllib.request.Request("https://api.github.com/users/VentureROM-L/repos?per_page=200&page=%d" % page)
     add_auth(githubreq)
     result = json.loads(urllib.request.urlopen(githubreq).read().decode())
     if len(result) == 0:
@@ -173,13 +173,13 @@ def add_to_manifest(repositories, fallback_branch = None):
         repo_name = repository['repository']
         repo_target = repository['target_path']
         if exists_in_tree(lm, repo_name):
-            print('Dirty Unicorns/%s already exists' % (repo_name))
+            print('VentureROM/%s already exists' % (repo_name))
             continue
 
-        print('Adding dependency: DirtyUnicorns/%s -> %s' % (repo_name, repo_target))
+        print('Adding dependency: VentureROM/%s -> %s' % (repo_name, repo_target))
         project = ElementTree.Element("project", attrib = { "path": repo_target,
-            "remote": "du", "revision": "lollipop", "name": repo_name })
-           ## "remote": "github", "name": "DirtyUnicorns/%s" % repo_name })
+            "remote": "venture", "revision": "lollipop", "name": repo_name })
+           ## "remote": "github", "name": "VentureROM/%s" % repo_name })
 
         if 'branch' in repository:
             project.set('revision',repository['branch'])
@@ -201,7 +201,7 @@ def add_to_manifest(repositories, fallback_branch = None):
 
 def fetch_dependencies(repo_path, fallback_branch = None):
     print('Looking for dependencies')
-    dependencies_path = repo_path + '/du.dependencies'
+    dependencies_path = repo_path + '/venture.dependencies'
     syncable_repos = []
 
     if os.path.exists(dependencies_path):
@@ -210,7 +210,7 @@ def fetch_dependencies(repo_path, fallback_branch = None):
         fetch_list = []
 
         for dependency in dependencies:
-            if not is_in_manifest("DirtyUnicorns/%s" % dependency['repository']):
+            if not is_in_manifest("VentureROM/%s" % dependency['repository']):
                 fetch_list.append(dependency)
                 syncable_repos.append(dependency['target_path'])
 
@@ -293,4 +293,4 @@ else:
             print("Done")
             sys.exit()
 
-print("Repository for %s not found in the Dirty Unicorns Github repository list. If this is in error, you may need to manually add it to your local_manifests/roomservice.xml." % device)
+print("Repository for %s not found in the VentureROM Github repository list. If this is in error, you may need to manually add it to your local_manifests/roomservice.xml." % device)
