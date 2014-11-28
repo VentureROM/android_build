@@ -1533,16 +1533,12 @@ endif
 	$(hide) ln -f $(INTERNAL_OTA_PACKAGE_TARGET) $(VENTURE_TARGET_PACKAGE)
 	$(hide) $(MD5SUM) $(VENTURE_TARGET_PACKAGE) > $(VENTURE_TARGET_PACKAGE).md5sum
 
-	@echo -e ${CL_RED}""${CL_RED}
-	@echo -e ${CL_RST}""${CL_RST}
-	@echo -e ${CL_RST}""${CL_RST}
-	@echo -e ${CL_RST}"                    Build completed! Now Flash that shit and ENJOY!!                   "${CL_RST}
-	@echo -e ${CL_RST}""${CL_RST}
-	@echo -e ${CL_RST}""${CL_RST}
-	@echo -e ${CL_RED}"======================================================================================="${CL_RED}
-	@echo -e ${CL_RST}"$(VENTURE_TARGET_PACKAGE)"${CL_RST}
-	@echo -e ${CL_RED}"======================================================================================="${CL_RED}
-	@echo -e ${CL_RST}"VENTURE"${CL_RST}
+	@echo -e ${CL_RED}"===================================================================================="${CL_RED}
+	@echo -e ${CL_RST}"                    Build has been completed for $(TARGET_DEVICE)                   "${CL_RST}
+	@echo -e ${CL_RST}"                       Please flash now and enjoy.. VentureROM                      "${CL_RST}
+	@echo -e ${CL_RED}"====================================================================================="${CL_RED}
+	@echo -e ${CL_RST}"                             $(VENTURE_TARGET_PACKAGE)                               "${CL_RST}
+	@echo -e ${CL_RED}"====================================================================================="${CL_RED}
 
 endif    # recovery_fstab is defined
 endif    # TARGET_NO_KERNEL != true
