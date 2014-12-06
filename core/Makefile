@@ -1677,6 +1677,13 @@ ifneq ($(PRODUCT_PREBUILT_WEBVIEWCHROMIUM),yes)
 endif
 endif
 
+ifeq ($(CHANGELOG),true)
+# Generate changelog
+	@echo -e ${CL_GRN}"Generating changelog..."${CL_RST}
+	$(hide) ./vendor/venture/utils/changelog.sh
+	$(hide) mv $(PRODUCT_OUT)/Changelog.txt $(PRODUCT_OUT)/$(VENTURE_VERSION).txt
+endif
+
 endif    # recovery_fstab is defined
 endif    # TARGET_NO_KERNEL != true
 endif    # TARGET_DEVICE != generic*
