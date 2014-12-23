@@ -1655,7 +1655,7 @@ otapackage: $(INTERNAL_OTA_PACKAGE_TARGET)
 bacon: check_bacon otapackage
 ifneq ($(VENTURE_BUILD),)
 	$(hide) ln -f $(INTERNAL_OTA_PACKAGE_TARGET) $(VENTURE_TARGET_PACKAGE)
-	$(hide) $(MD5SUM) $(VENTURE_TARGET_PACKAGE) > $(VENTURE_TARGET_PACKAGE).md5sum
+	$(hide) $(MD5SUM) $(VENTURE_TARGET_PACKAGE) > $(VENTURE_TARGET_PACKAGE).md5
 	@echo -e "Package Complete: $(VENTURE_TARGET_PACKAGE)"
 endif
 
