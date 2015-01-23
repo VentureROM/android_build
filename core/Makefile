@@ -1656,7 +1656,15 @@ bacon: check_bacon otapackage
 ifneq ($(VENTURE_BUILD),)
 	$(hide) ln -f $(INTERNAL_OTA_PACKAGE_TARGET) $(VENTURE_TARGET_PACKAGE)
 	$(hide) $(MD5SUM) $(VENTURE_TARGET_PACKAGE) > $(VENTURE_TARGET_PACKAGE).md5
-	@echo -e "Package Complete: $(VENTURE_TARGET_PACKAGE)"
+	@echo -e ${CL_RST}""{CL_RST}
+	@echo -e ${CL_BLU}" _   _            _                 ______ ________  ___"${CL_RST}
+	@echo -e ${CL_BLU}"| | | |          | |                | ___ \  _  |  \/  |"${CL_RST}
+	@echo -e ${CL_BLU}"| | | | ___ _ __ | |_ _   _ _ __ ___| |_/ / | | | .  . |"${CL_RST}
+	@echo -e ${CL_BLU}"| | | |/ _ \ '_ \| __| | | | '__/ _ \    /| | | | |\/| |"${CL_RST}
+	@echo -e ${CL_BLU}"\ \_/ /  __/ | | | |_| |_| | | |  __/ |\ \\ \_/ / |  | |"${CL_RST}
+	@echo -e ${CL_BLU}" \___/ \___|_| |_|\__|\__,_|_|  \___\_| \_|\___/\_|  |_/"${CL_RST}
+	@echo -e ${CL_RST}""{CL_RST}
+	@echo -e ${CL_BLU}"Your build is completed: $(VENTURE_TARGET_PACKAGE) ... flash it!!"{CL_RST}
 endif
 
 check_bacon:
