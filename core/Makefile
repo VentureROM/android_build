@@ -17,6 +17,7 @@ endif
 LOCAL_PATH := $(BUILD_SYSTEM)
 
 # Pick a reasonable string to use to identify files.
+ifneq ($(VENTURE_BUILD),)
 ifneq "" "$(filter eng.%,$(BUILD_NUMBER))"
   # BUILD_NUMBER has a timestamp in it, which means that
   # it will change every time.  Pick a stable value.
@@ -227,7 +228,7 @@ endif
 	$(hide) TARGET_BUILD_TYPE="$(TARGET_BUILD_VARIANT)" \
 			TARGET_BUILD_FLAVOR="$(TARGET_PRODUCT)-$(TARGET_BUILD_VARIANT)" \
 			TARGET_DEVICE="$(TARGET_VENDOR_DEVICE_NAME)" \
-			CM_DEVICE="$(TARGET_DEVICE)" \
+			VENTURE_DEVICE="$(TARGET_DEVICE)" \
 			PRODUCT_NAME="$(TARGET_VENDOR_PRODUCT_NAME)" \
 			PRODUCT_BRAND="$(PRODUCT_BRAND)" \
 			PRODUCT_DEFAULT_LANGUAGE="$(call default-locale-language,$(PRODUCT_LOCALES))" \
@@ -907,15 +908,6 @@ endif
 # build always uses dev-keys for this; release packaging tools will
 # substitute other keys for this one.
 OTA_PUBLIC_KEYS := $(DEFAULT_SYSTEM_DEV_CERTIFICATE).x509.pem
-
-ifneq ($(OTA_PACKAGE_SIGNING_KEY),)
-    OTA_PUBLIC_KEYS := $(OTA_PACKAGE_SIGNING_KEY).x509.pem
-    PRODUCT_EXTRA_RECOVERY_KEYS := $(DEFAULT_SYSTEM_DEV_CERTIFICATE)
-else
-    PRODUCT_EXTRA_RECOVERY_KEYS += \
-        build/target/product/security/cm \
-        build/target/product/security/cm-devkey
-endif
 
 # Generate a file containing the keys that will be read by the
 # recovery binary.
@@ -1676,7 +1668,7 @@ endif
 ifeq ($(WITH_GMS),true)
     $(INTERNAL_OTA_PACKAGE_TARGET): backuptool := false
 else
-ifneq ($(CM_BUILD),)
+ifneq ($(VENTURE_BUILD),)
     $(INTERNAL_OTA_PACKAGE_TARGET): backuptool := true
 else
     $(INTERNAL_OTA_PACKAGE_TARGET): backuptool := false
@@ -1711,14 +1703,24 @@ $(INTERNAL_OTA_PACKAGE_TARGET): $(BUILT_TARGET_FILES_PACKAGE) $(DISTTOOLS)
 	   $(if $(OEM_OTA_CONFIG), -o $(OEM_OTA_CONFIG)) \
 	   $(BUILT_TARGET_FILES_PACKAGE) $@
 
-CM_TARGET_PACKAGE := $(PRODUCT_OUT)/cm-$(CM_VERSION).zip
+VENTURE_TARGET_PACKAGE := $(PRODUCT_OUT)/$(VENTURE_VERSION).zip
 
 .PHONY: otapackage bacon
 otapackage: $(INTERNAL_OTA_PACKAGE_TARGET)
 bacon: otapackage
-	$(hide) ln -f $(INTERNAL_OTA_PACKAGE_TARGET) $(CM_TARGET_PACKAGE)
-	$(hide) $(MD5SUM) $(CM_TARGET_PACKAGE) > $(CM_TARGET_PACKAGE).md5sum
-	@echo -e ${CL_CYN}"Package Complete: $(CM_TARGET_PACKAGE)"${CL_RST}
+ifneq ($(VENTURE_BUILD),)
+	$(hide) ln -f $(INTERNAL_OTA_PACKAGE_TARGET) $(VENTURE_TARGET_PACKAGE)
+	$(hide) $(MD5SUM) $(VENTURE_TARGET_PACKAGE) > $(VENTURE_TARGET_PACKAGE).md5
+	@echo -e ${CL_RST}""${CL_RST}
+	@echo -e ${CL_BLU}" _   _            _                 ______ ________  ___"${CL_RST}
+	@echo -e ${CL_BLU}"| | | |          | |                | ___ \  _  |  \/  |"${CL_RST}
+	@echo -e ${CL_BLU}"| | | | ___ _ __ | |_ _   _ _ __ ___| |_/ / | | |      |"${CL_RST}
+	@echo -e ${CL_BLU}"| | | |/ _ \ '_ \| __| | | | '__/ _ \    /| | | | |\/| |"${CL_RST}
+	@echo -e ${CL_BLU}"\ \_/ /  __/ | | | |_| |_| | | |  __/ |\ \| |_| | |  | |"${CL_RST}
+	@echo -e ${CL_BLU}" \___/ \___|_| |_|\__|\__,_|_|  \___|_| \_|_____|_|  |_|"${CL_RST}
+	@echo -e ${CL_RST}""${CL_RST}
+	@echo -e ${CL_GRN}"Your build is completed: $(VENTURE_TARGET_PACKAGE) ... flash it!!"${CL_RST}
+endif
 
 # -----------------------------------------------------------------
 # The factory package

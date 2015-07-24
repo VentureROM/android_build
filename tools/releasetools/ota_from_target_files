@@ -593,6 +593,14 @@ else if get_stage("%(bcb_dev)s") == "3/3" then
 
   system_progress = 0.75
 
+  script.Print("")
+  script.Print(" _   __         __               ___  ____  __  ___")
+  script.Print("| | / /__ ___  / /___ _________ / _ \/ __ \/  |/  /")
+  script.Print("| |/ / -_) _ \/ __/ // / __/ -_) , _/ /_/ / /|_/ / ")
+  script.Print("|___/\__/_//_/\__/\_,_/_/  \__/_/|_|\____/_/  /_/  ")          
+  script.Print("")
+  script.Print("VentureROM is being flashed...")
+
   if OPTIONS.wipe_user_data:
     system_progress -= 0.1
   if HasVendorPartition(input_zip):
@@ -712,7 +720,7 @@ endif;
   common.ZipWriteStr(output_zip, "system/build.prop",
                      ""+input_zip.read("SYSTEM/build.prop"))
 
-  common.ZipWriteStr(output_zip, "META-INF/org/cyanogenmod/releasekey",
+  common.ZipWriteStr(output_zip, "META-INF/org/venture/releasekey",
                      ""+input_zip.read("META/releasekey.txt"))
 
 def WritePolicyConfig(file_context, output_zip):
